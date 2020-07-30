@@ -10,9 +10,9 @@ The project creates a node.js web server, which provides the documentation page 
 # Prerequisites
 To use this project, you will need the following:
 * Two Meraki organizations:
--- One with special API endpoints enabled, for example through participation in the Developer Early Access Program: https://developer.cisco.com/meraki/meraki-developer-early-access-program/
--- One with no special features enabled. You can create a new blank organization for this use. You don't need to add devices or licenses
--- Both organizations need to have Dashboard API access enabled 
+- One with special API endpoints enabled, for example through participation in the Developer Early Access Program: https://developer.cisco.com/meraki/meraki-developer-early-access-program/
+- One with no special features enabled. You can create a new blank organization for this use. You don't need to add devices or licenses
+- Both organizations need to have Dashboard API access enabled 
 * A Meraki dashboard administrator account with at least read access to both of these organisations and an API key
 
 # Installation and startup
