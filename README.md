@@ -18,7 +18,7 @@ To use this project, you will need the following:
 # Installation and startup
 * Install node.js: https://nodejs.org/en/
 * Copy the contents or this repository to your server
-* Edit file /models/Config.js
+* Edit file **/models/Config.js**
 * Find the following text:
 ```
 // Edit this to match the Meraki Dashboard API key you want to use
@@ -42,7 +42,7 @@ node server.js
 ```
 http://yourServersIpAddress:8080
 ```
-* If you prefer a different colour scheme, or the fonts and elements don't render properly on your screen, feel free to edit the stylesheet found at /html/css/style.css to your liking
+* If you prefer a different colour scheme, or the fonts and elements don't render properly on your screen, feel free to edit the stylesheet found at **/html/css/style.css** to your liking
 
 # Screenshot
 ![alt screenshot](diff-docs-screenshot.png)
