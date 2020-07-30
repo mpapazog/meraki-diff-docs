@@ -203,13 +203,13 @@ function createDocumentationObject (rawObject) {
         }
     }
     
-    console.log(rawObject);    
+    //console.log(rawObject);    
     
     return result;
 } // createDocumentationObject
 
 function scrollToItem(itemId) {
-    console.log("scrolling to " + itemId);
+    //console.log("scrolling to " + itemId);
     var item = document.getElementById(itemId);
     if (item != null) {
         item.scrollIntoView();
