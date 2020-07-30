@@ -1,0 +1,16 @@
+{
+  "name": "fancy-meraki-docs",
+  "version": "1.0.0",
+  "description": "Meraki Dashboard API docs with support for highlighting beta endpoints",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "axios": "^0.19.2"
+  }
+}
