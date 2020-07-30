@@ -42,6 +42,7 @@ node server.js
 ```
 http://yourServersIpAddress:8080
 ```
+* If you prefer a different colour scheme, or the fonts and elements don't render properly on your screen, feel free to edit the stylesheet found at /html/css/style.css to your liking
 
 # Screenshot
 ![alt screenshot](diff-docs-screenshot.png)
