@@ -208,14 +208,6 @@ function createDocumentationObject (rawObject) {
     return result;
 } // createDocumentationObject
 
-function scrollToItem(itemId) {
-    //console.log("scrolling to " + itemId);
-    var item = document.getElementById(itemId);
-    if (item != null) {
-        item.scrollIntoView();
-    }
-}
-
 function addMainMenuLinkOnclickEvent(menuItemId, targetItemId, checkInterval){
     var menuItem = document.getElementById(menuItemId);
     if (menuItem == null) {
@@ -398,7 +390,7 @@ function buildMainPanelEndpoint(item) {
     
     // Form body schema documentation. Note that bodyParameters is already populated in previous section
     var parametersLabel = document.createElement("p");
-    parametersLabel.innerText = "REQUEST BODY SCHEMA";
+    parametersLabel.innerText = "REQUST BODY SCHEMA";
     parametersLabel.classList.add("main-panel-endpoint-block-header");
     content.appendChild(parametersLabel);
     var bodyParameterCount = bodyParameters.length;
@@ -511,6 +503,9 @@ function buildMainPanelContent (docs) {
         }
         mainPanel.appendChild(itemContainer);
     }
+    var spacer = document.createElement("p");
+    spacer.classList.add("main-panel-final-spacer");
+    mainPanel.appendChild(spacer);
 }
 
 function refreshPage() {

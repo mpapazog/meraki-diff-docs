@@ -53,10 +53,6 @@
     text-decoration: none;
 }
 
-.main-panel-subheader {
-    
-}
-
 .main-panel-category {
     padding-top:2%;
 }
@@ -107,5 +103,9 @@
 
 .output{
     font-size: small;
+}
+
+.main-panel-final-spacer {
+    padding-top:12%;    
 }
 
