@@ -390,7 +390,7 @@ function buildMainPanelEndpoint(item) {
     
     // Form body schema documentation. Note that bodyParameters is already populated in previous section
     var parametersLabel = document.createElement("p");
-    parametersLabel.innerText = "REQUST BODY SCHEMA";
+    parametersLabel.innerText = "REQUEST BODY SCHEMA";
     parametersLabel.classList.add("main-panel-endpoint-block-header");
     content.appendChild(parametersLabel);
     var bodyParameterCount = bodyParameters.length;
