@@ -522,14 +522,3 @@ function refreshPage() {
         })
         .catch(err => { throw err });
 }
-
-setInterval(
-    function(){ 
-        /*document.getElementById("divRight").scroll({
-            top: 100,
-            left: 100,
-            behavior: 'smooth'
-            }); */
-        
-        //document.getElementById("").scrollIntoView();
-        }, 3000);
