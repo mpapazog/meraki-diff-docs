@@ -108,7 +108,8 @@ function getCategoryIndex (categoryArray, title) {
 function createEndpointName (endpointDescription) {
     var splitDescription = endpointDescription.split(".");
     var trimmed = splitDescription[0].trim()
-    if (trimmed.search("OpenAPI") != -1 || trimmed.search("802.1x")) {
+    // Exceptions for strings "OpenAPI 2.0" and "802.1X", which would otherwise be cut short
+    if (trimmed.search("OpenAPI") != -1 || trimmed.search("802") != -1) {
         return endpointDescription;
     }
     return trimmed;
