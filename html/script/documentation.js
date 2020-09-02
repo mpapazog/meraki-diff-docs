@@ -217,7 +217,12 @@ function addMainMenuLinkOnclickEvent(menuItemId, targetItemId, checkInterval){
         } ,checkInterval);
     } else {
         menuItem.onclick = function(event) {
-            document.getElementById(targetItemId).scrollIntoView({behavior: "smooth"});
+            if (navigator.userAgent.search("Chrome") != -1) {
+                // Chrome has issues with smooth scrolling
+                document.getElementById(targetItemId).scrollIntoView();
+            } else {
+                document.getElementById(targetItemId).scrollIntoView({ behavior: 'smooth' });                
+            }
         };
     }
 }
