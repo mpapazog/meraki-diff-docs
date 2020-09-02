@@ -38,7 +38,7 @@ this.betaOrgId      = '6543';
 npm install
 node server.js
 ```
-* By default, the server will run on TCP port 8080, and the documentation page can be accessed by navigating with a web browser to:
+* By default, the server will run on TCP port 8080, and the documentation page can be accessed by navigating with a web browser (Firefox recommended) to:
 ```
 http://yourServersIpAddress:8080
 ```
