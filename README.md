@@ -2,7 +2,7 @@
 Documentation page for the Meraki Dashboard API that highlights limited access endpoints.
 
 # The use case
-This project is intended for experienced users of the Meraki Dashboard API, possibly members of the Developer Early Access Community. The project creates a minimalistic documentation page that uses red/green/orange colour coding to highlight which endpoints are in general availability status (and usable on all customer organisations) and which are visible through having enrolled into initiatives that provide access to extra endpoints, which might not be available to everyone.
+This project is intended for experienced users of the Meraki Dashboard API, possibly members of the Developer Early Access Community. The project creates a minimalistic documentation page that uses red/green/orange colour coding to highlight which endpoints are in general availability status (and usable on all customer organisations) and which are visible through having enrolled into initiatives that provide access to extra endpoints, which might not be available to everyone. A typical example of endpoints highlighted in red are alpha/beta endpoints available through the Early Access programme.
 
 # Project overview
 The project creates a node.js web server, which provides the documentation page and handles communication with the Meraki Dashboard API.
