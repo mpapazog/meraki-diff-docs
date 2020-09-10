@@ -11,6 +11,7 @@ class DocumentationEndpointClass {
         this.responseCode       = "";
         this.responseDescription= "";
         this.responseExample    = null;
+        this.tags               = [];
     }
 }
 
@@ -168,6 +169,11 @@ function createDocumentationObject (rawObject) {
             } else {
                 endpoint.availabilityStatus = "ga";
             }
+            
+            for (i in rawObject.betaSpec.paths[path][verb].tags) {
+                endpoint.tags.push(rawObject.betaSpec.paths[path][verb].tags[i]);
+            }
+            
             result.categories[index].endpoints.push(endpoint);
         }
     }
@@ -205,6 +211,7 @@ function createDocumentationObject (rawObject) {
     }
     
     //console.log(rawObject);    
+    //console.log(result);
     
     return result;
 } // createDocumentationObject
@@ -297,7 +304,7 @@ function addEnpointTitleShowHideEvent(titleItemId, targetItemId, checkInterval){
     }
 }
 
-function buildMainPanelEndpoint(item) {
+function buildMainPanelEndpoint(item, versionStr) {
     var endpoint = document.createElement("div");
     endpoint.classList.add("main-panel-endpoint");
     var name = document.createElement("a");
@@ -471,6 +478,32 @@ function buildMainPanelEndpoint(item) {
         content.appendChild(responseOutput);        
     }
     
+    // Form Official Docs / Postman collection path content item
+    var docsPathLabel = document.createElement("p");
+    docsPathLabel.innerText = "POSTMAN COLLECTION PATH";
+    docsPathLabel.classList.add("main-panel-endpoint-block-header");
+    content.appendChild(docsPathLabel);
+    var docsPathTable = document.createElement("table");
+    var docsPathRow = document.createElement("tr");
+    var docsPathData = document.createElement("td");
+    docsPathData.classList.add("code");
+    var docsPath = "";
+    if (versionStr[0] == "1") {
+        const generalCategories = ["devices", "networks", "organizations"];
+        if (generalCategories.includes(item.tags[0])) {
+            docsPath += "general > ";
+        } else {
+            docsPath += "products > ";
+        }
+    }
+    for (i in item.tags) {
+        docsPath += item.tags[i] + " > ";
+    }
+    docsPath += item.id;
+    docsPathData.innerText = docsPath;
+    docsPathRow.appendChild(docsPathData);
+    docsPathTable.appendChild(docsPathRow);
+    content.appendChild(docsPathTable);        
         
     var spacer = document.createElement("p");
     spacer.classList.add("main-panel-endpoint-spacer");
@@ -505,7 +538,7 @@ function buildMainPanelContent (docs) {
         itemContainer.id = docs.categories[i].navName;
         var endpointCount = docs.categories[i].endpoints.length;
         for (var j = 0; j < endpointCount; j++) {
-            itemContainer.appendChild(buildMainPanelEndpoint(docs.categories[i].endpoints[j]));
+            itemContainer.appendChild(buildMainPanelEndpoint(docs.categories[i].endpoints[j], docs.version));
         }
         mainPanel.appendChild(itemContainer);
     }
