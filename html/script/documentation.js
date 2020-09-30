@@ -40,7 +40,7 @@ function firstCapital(inputString) {
 function correctAcronymCapitalization(inputString) {
     const acronyms = [
         "API", "APNs", "CDP", "CoS", "DHCP", "DSCP", "HTTP", "LAN", "LLDP", "MQTT", "MTU", 
-        "OpenAPI", "PII", "QoS", "RF", "SAML", "SM", "SNMP", "SSIDs", "STP", "VLANs", "VPN", "VPP"
+        "OpenAPI", "PII", "QoS", "RF", "SAML", "SM", "SNMP", "SSIDs", "STP", "VLAN", "VLANs", "VPN", "VPP"
     ];
     var words = inputString.split(" ");
     var wordCount = words.length;
