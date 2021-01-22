@@ -235,6 +235,7 @@ function addMainMenuLinkOnclickEvent(menuItemId, targetItemId, checkInterval){
 }
 
 function buildMenu(endpointCategories) {
+    var colourBlindMode = document.getElementById("inputColourBlind").checked;
     var menuPanel = document.getElementById("divMenu");
     menuPanel.innerHTML = "";
     
@@ -252,13 +253,28 @@ function buildMenu(endpointCategories) {
         a.classList.add("menu-item");
         switch (endpointCategories[i].availabilityStatus) {
             case "ga":
-                a.classList.add("text-colour-ga");
+                if (colourBlindMode) {
+                    a.classList.add("text-colour-ga-colourblind");                  
+                }
+                else {
+                    a.classList.add("text-colour-ga");                
+                } 
                 break;
             case "beta":
-                a.classList.add("text-colour-beta");
+                if (colourBlindMode) {
+                    a.classList.add("text-colour-beta-colourblind"); 
+                }
+                else {
+                    a.classList.add("text-colour-beta");                
+                } 
                 break;
             case "mixed":
-                a.classList.add("text-colour-mixed");
+                if (colourBlindMode) {
+                    a.classList.add("text-colour-mixed-colourblind");                
+                }
+                else {
+                    a.classList.add("text-colour-mixed");                 
+                } 
                 break;
         }
         p.appendChild(a);
@@ -268,19 +284,35 @@ function buildMenu(endpointCategories) {
 }
 
 function buildMainItemTitle(item) {
+    var colourBlindMode = document.getElementById("inputColourBlind").checked;
     var title = document.createElement("h2");
     title.innerText = item.title;
     title.name = "section" + item.navName;
     title.id = "section" + item.navName;
     switch (item.availabilityStatus) {
         case "ga":
-            title.classList.add("text-colour-ga");
+            if (colourBlindMode) {
+                title.classList.add("text-colour-ga-colourblind");                  
+            }
+            else {
+                title.classList.add("text-colour-ga");                
+            } 
             break;
         case "beta":
-            title.classList.add("text-colour-beta");
+            if (colourBlindMode) {
+                title.classList.add("text-colour-beta-colourblind"); 
+            }
+            else {
+                title.classList.add("text-colour-beta");                
+            } 
             break;
         case "mixed":
-            title.classList.add("text-colour-mixed");
+            if (colourBlindMode) {
+                title.classList.add("text-colour-mixed-colourblind");                
+            }
+            else {
+                title.classList.add("text-colour-mixed");                 
+            } 
             break;
     }
     return title;
@@ -305,6 +337,7 @@ function addEnpointTitleShowHideEvent(titleItemId, targetItemId, checkInterval){
 }
 
 function buildMainPanelEndpoint(item, versionStr) {
+    var colourBlindMode = document.getElementById("inputColourBlind").checked;
     var endpoint = document.createElement("div");
     endpoint.classList.add("main-panel-endpoint");
     var name = document.createElement("a");
@@ -316,7 +349,12 @@ function buildMainPanelEndpoint(item, versionStr) {
     name.href  = "#";
     switch (item.availabilityStatus) {
         case "beta":
-            name.classList.add("text-colour-beta");
+            if (colourBlindMode) {
+                name.classList.add("text-colour-beta-colourblind");                      
+            }
+            else {
+                name.classList.add("text-colour-beta");                
+            }
             break;
         default:
             name.classList.add("text-colour-default");
@@ -561,4 +599,3 @@ function refreshPage() {
         })
         .catch(err => { throw err });
 }
-
