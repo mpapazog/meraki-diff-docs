@@ -13,14 +13,13 @@ class DashboardApiV0Class {
     
     async getOpenAPISpec(organizationId) {  
         var endpoint = "/organizations/" + organizationId + "/openapiSpec";
-        var result = {error: "General failure"};
+        var result = null;
         
         try {
             const response = await this.api.get(endpoint);
             result = response.data;
         } catch (error) {
             console.error(error);
-            throw Error(error);
         }
         return result;
     }

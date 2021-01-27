@@ -18,19 +18,20 @@ To use this project, you will need the following:
 # Installation and startup
 * Install node.js: https://nodejs.org/en/
 * Copy the contents or this repository to your server
-* Edit file **/models/Config.js**
+* Edit file **/config/config.yaml**
 * Find the following text:
 ```
-// Edit this to match the Meraki Dashboard API key you want to use
-this.apiKey         = '1234'; 
-
-// Edit this to match the organizationId of your "General availability" organization, ie. the
-// one that does not have any limited access API endpoints enabled.
-this.gaOrgId        = '4567'; 
-
-// Edit this to match the organizationId of your "Beta" organization, ie. the
-// one that has limited access API endpoints enabled.
-this.betaOrgId      = '6543';
+merakiDashboardAPI:
+    # Modify to match your Meraki Dashboard API key
+    apiKey: "1234"
+    
+    # Modify to match the organization where NO special API endpoints are enabled
+    generalAvailabilityOrganization: 
+        id: "4567"
+        
+    # Modify to match the organization where special API endpoints are enabled
+    betaOrganization:
+        id: "7890"
 ```
 * Replace the contents of the strings to match your environment
 * In the installation directory, run the following commands:
@@ -43,6 +44,22 @@ node server.js
 http://yourServersIpAddress:8080
 ```
 * If you prefer a different colour scheme, or the fonts and elements don't render properly on your screen, feel free to edit the stylesheet found at **/html/css/style.css** to your liking
+
+# Enabling authentication
+By default, authentication is disabled in the configuration file. **It is highly recommended that you set up a HTTPS reverse proxy if you enable authentication, to avoid credentials' leak.**
+
+To enable authentication:
+* Edit file **/config/config.yaml**
+* Find the following text:
+```
+authentication:
+    # Optional: Modify this to enable HTTP basic authentication
+    # NOTE: A HTTPS reverse proxy is highly advised to protect credentials in transit
+    required: false
+```
+* Modify the value to **required: true**
+* Edit file **/config/users.csv**
+* Add credentials in the form **username,password**
 
 # Screenshot
 ![alt screenshot](diff-docs-screenshot.png)

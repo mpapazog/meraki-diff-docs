@@ -1,0 +1,9 @@
+# Lines starting with # are comments and will be ignored
+# Applying changes to this file requires a server restart
+# An example users file can be found here: 
+# TODO: Add github link
+#
+# Add users one per line in the following format (ommiting the leading #):
+#username,password
+testuser,testpassword
+seconduser,secondpassword

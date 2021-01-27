@@ -1,0 +1,29 @@
+# !!! APPLYING CONFIG CHANGES REQUIRES A SERVER RESTART !!!
+# An example config file can be found here: 
+# TODO: Add github link
+
+merakiDashboardAPI:
+    # Modify to match your Meraki Dashboard API key
+    apiKey: "1234"
+    
+    # Modify to match the organization where NO special API endpoints are enabled
+    generalAvailabilityOrganization: 
+        id: "4567"
+        
+    # Modify to match the organization where special API endpoints are enabled
+    betaOrganization:
+        id: "7890"
+        
+    # Optional: Modify these to change Dashboard API communication parameters
+    v0BaseUrl: "https://api-mp.meraki.com/api/v0"
+    v1BaseUrl: "https://api-mp.meraki.com/api/v1"
+    openApiSpecUpdateFrequencyHours: 6
+    
+authentication:
+    # Optional: Modify this to enable HTTP basic authentication
+    # NOTE: A HTTPS reverse proxy is highly advised to protect credentials in transit
+    required: false
+    
+    # Optional: Modify this to change the default file containing usernames and passwords
+    # This file is only needed if authentication:required is set to true
+    usersFilename: "users.csv"
