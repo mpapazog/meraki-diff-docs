@@ -35,6 +35,10 @@ class ApiDocumentationClass {
 
 var USERNAME = "";
 var PASSWORD = "";
+var USER_PREFERENCES = {
+    apiVersion: "v1",
+    colourScheme: "default"    
+};
 var AUTH_REQUIRED = null;
 
 function firstCapital(inputString) {
@@ -239,7 +243,7 @@ function addMainMenuLinkOnclickEvent(menuItemId, targetItemId, checkInterval){
 }
 
 function buildMenu(endpointCategories) {
-    var colourBlindMode = document.getElementById("inputColourBlind").checked;
+    var colourBlindMode = USER_PREFERENCES ? USER_PREFERENCES.colourScheme == "colourBlind" : false;
     var menuPanel = document.getElementById("divMenu");
     menuPanel.innerHTML = "";
     
@@ -288,7 +292,7 @@ function buildMenu(endpointCategories) {
 }
 
 function buildMainItemTitle(item) {
-    var colourBlindMode = document.getElementById("inputColourBlind").checked;
+    var colourBlindMode = USER_PREFERENCES ? USER_PREFERENCES.colourScheme == "colourBlind" : false;
     var title = document.createElement("h2");
     title.innerText = item.title;
     title.name = "section" + item.navName;
@@ -341,7 +345,7 @@ function addEnpointTitleShowHideEvent(titleItemId, targetItemId, checkInterval){
 }
 
 function buildMainPanelEndpoint(item, versionStr) {
-    var colourBlindMode = document.getElementById("inputColourBlind").checked;
+    var colourBlindMode = USER_PREFERENCES ? USER_PREFERENCES.colourScheme == "colourBlind" : false;
     var endpoint = document.createElement("div");
     endpoint.classList.add("main-panel-endpoint");
     var name = document.createElement("a");
@@ -557,13 +561,14 @@ function buildMainPanelEndpoint(item, versionStr) {
     return endpoint;
 }
 
-function buildMainPanelHeader(rawObject) {
-    var apiTitle = "";
-}
 
 function buildMainPanelContent (docs) {
     var mainPanel = document.getElementById("divRight");
     mainPanel.innerHTML = "";
+    var lineBreak = document.createElement("br");
+    mainPanel.appendChild(lineBreak);
+    lineBreak = document.createElement("br");
+    mainPanel.appendChild(lineBreak);
     var panelHeader = document.createElement("h1");
     panelHeader.innerText = docs.title;
     mainPanel.appendChild(panelHeader);
@@ -590,7 +595,7 @@ function buildMainPanelContent (docs) {
 }
 
 function refreshPage() {
-    var version     = document.getElementById("selectVersion").value;
+    var version     = USER_PREFERENCES ? USER_PREFERENCES.apiVersion : 'v1';
     var resource    = location.protocol + "//" + location.host + "/docs/" + version;
     var headers     = {};
     
@@ -628,69 +633,6 @@ function loadMainPage() {
     var divBody = document.getElementById("divBody");    
     divBody.innerHTML = "";
     
-    var divTop = document.createElement("div");
-    divTop.id = "divTop";
-    divTop.classList.add("div-top");
-    divTop.classList.add("common");
-    
-    var topTable = document.createElement("table");    
-    var row = document.createElement("tr");    
-    var tdForm = document.createElement("td");
-    
-    var formRefresh = document.createElement("form");
-    formRefresh.id = "formRefresh";
-    
-    var labelVersion = document.createElement("label");
-    labelVersion.innerText = "Select version";
-    labelVersion.for = "selectVersion";
-    formRefresh.appendChild(labelVersion);
-    
-    var selectVersion   = document.createElement("select");
-    selectVersion.id    = "selectVersion";
-    selectVersion.name  = "selectVersion";
-    
-    var optionV1 = document.createElement("option");
-    optionV1.value = "v1";
-    optionV1.innerText = "Meraki Dashboard API v1";
-    selectVersion.appendChild(optionV1);
-    
-    var optionV0 = document.createElement("option");
-    optionV0.value = "v0";
-    optionV0.innerText = "Meraki Dashboard API v0";
-    selectVersion.appendChild(optionV0);
-    
-    formRefresh.appendChild(selectVersion);
-    
-    var labelColourBlind = document.createElement("label");
-    labelColourBlind.for = "inputColourBlind";
-    labelColourBlind.innerText = "Colour blind mode";
-    formRefresh.appendChild(labelColourBlind);
-    
-    var inputColourBlind = document.createElement("input");
-    inputColourBlind.type = "checkbox";
-    inputColourBlind.id = "inputColourBlind";
-    formRefresh.appendChild(inputColourBlind);
-        
-    tdForm.appendChild(formRefresh);
-    row.appendChild(tdForm);
-    
-    var tdButton = document.createElement("td");
-    tdButton.classList.add("td-button");
-        
-    var buttonRefresh = document.createElement("button");
-    buttonRefresh.id = "buttonRefresh";
-    buttonRefresh.innerText = "Refresh";
-    buttonRefresh.id = "buttonRefresh";
-    
-    tdButton.appendChild(buttonRefresh);    
-    row.appendChild(tdButton);
-    topTable.appendChild(row);
-    
-    divTop.appendChild(topTable);
-    addRefreshButtonEventHandler("buttonRefresh", 10);
-    
-    divBody.appendChild(divTop);    
-    
     var divMenu = document.createElement("div");
     divMenu.id = "divMenu";
     divMenu.classList.add("div-menu");
@@ -701,7 +643,195 @@ function loadMainPage() {
     divRight.id = "divRight";
     divRight.classList.add("div-right");
     divRight.classList.add("common");
-    divBody.appendChild(divRight);        
+    divBody.appendChild(divRight);
+            
+    var divPreferences = document.createElement("div");
+    divPreferences.id = "divPreferences";
+    divPreferences.classList.add("div-preferences");
+    
+    var buttonPreferences = document.createElement("button");
+    buttonPreferences.id = "buttonPreferences";
+    buttonPreferences.innerText = "Preferences";
+    divPreferences.appendChild(buttonPreferences);
+    divBody.appendChild(divPreferences);
+    
+    addPreferencesButtonClickEvent("buttonPreferences", 10);
+    
+    var divPreferencesDialogContainer = document.createElement("div");
+    divPreferencesDialogContainer.id = "divPreferencesDialogContainer";
+    divBody.appendChild(divPreferencesDialogContainer);
+    
+    triggerAutoRefresh ("divMenu", "divRight", 10);
+}
+
+function togglePreferencesDialog() {
+    var divContainer = document.getElementById("divPreferencesDialogContainer"); 
+    if (divContainer.innerHTML != "") {
+        divContainer.innerHTML = "";        
+    } else {
+             
+        var divPreferencesDialog = document.createElement("div");
+        divPreferencesDialog.id = "divPreferencesDialog";    
+        divPreferencesDialog.classList.add("div-preferences-dialog");
+        divPreferencesDialog.classList.add("common");
+        
+        var tableSettingCategories = document.createElement("table");
+        tableSettingCategories.classList.add("table-preferences");
+        
+        var trVersion = document.createElement("tr");
+        var tdVersionLabel = document.createElement("td");
+        tdVersionLabel.innerText = "API version";     
+        trVersion.appendChild(tdVersionLabel);   
+        
+        var tdVersionSelect = document.createElement("td");
+        var selectVersion   = document.createElement("select");
+        selectVersion.id    = "selectVersion";
+        selectVersion.name  = "selectVersion";
+        
+        var optionV1 = document.createElement("option");
+        optionV1.value = "v1";
+        optionV1.innerText = "Meraki Dashboard API v1";
+        selectVersion.appendChild(optionV1);
+        
+        var optionV0 = document.createElement("option");
+        optionV0.value = "v0";
+        optionV0.innerText = "Meraki Dashboard API v0";
+        selectVersion.appendChild(optionV0);
+        
+        var opts = selectVersion.options;
+        var val = USER_PREFERENCES.apiVersion;
+        for (var opt, j = 0; opt = opts[j]; j++) {
+            if (opt.value == val) {
+                selectVersion.selectedIndex = j;
+                break;
+            }
+        }
+        
+        tdVersionSelect.appendChild(selectVersion);  
+        trVersion.appendChild(tdVersionSelect);    
+        tableSettingCategories.appendChild(trVersion);    
+        
+        var trColourBlind = document.createElement("tr");
+        var tdColourBlindLabel = document.createElement("td");
+        tdColourBlindLabel.innerText = "Colour blind assist";    
+        trColourBlind.appendChild(tdColourBlindLabel);   
+        
+        var tdColourBlindInput = document.createElement("td");
+        var inputColourBlind = document.createElement("input");
+        inputColourBlind.type = "checkbox";
+        inputColourBlind.id = "inputColourBlind";
+        inputColourBlind.checked = USER_PREFERENCES.colourScheme == "colourBlind";
+        tdColourBlindInput.appendChild(inputColourBlind); 
+        trColourBlind.appendChild(tdColourBlindInput);  
+        tableSettingCategories.appendChild(trColourBlind);  
+        
+        var trSubmit = document.createElement("tr");
+        var tdSpacer = document.createElement("td");
+        trSubmit.appendChild(tdSpacer);  
+        var tdSubmit = document.createElement("td");
+        var buttonSave = document.createElement("button");
+        buttonSave.id = "buttonSavePreferences";
+        buttonSave.innerText = "Save";    
+        tdSubmit.appendChild(buttonSave);  
+        trSubmit.appendChild(tdSubmit);  
+        tableSettingCategories.appendChild(trSubmit); 
+        
+        divPreferencesDialog.appendChild(tableSettingCategories); 
+        divContainer.appendChild(divPreferencesDialog);    
+        
+        addSaveButtonClickEvent("buttonSavePreferences", 10);
+    }
+}
+
+function savePreferences() {
+    var resource    = location.protocol + "//" + location.host + "/docs/user/preferences";
+    var version     = document.getElementById("selectVersion").value;
+    var colourScheme= document.getElementById("inputColourBlind").checked ? "colourBlind" : "default";
+    
+    if (AUTH_REQUIRED) {
+        var body = JSON.stringify ({
+            apiVersion: version,
+            colourScheme: colourScheme
+        });
+        var method = "PUT";
+        var headers = {
+            'Content-Type': 'application/json',
+            authorization: createAuthorizationHeaderValue()
+        };
+        
+        fetch(resource, {
+            method  : method,
+            headers : headers,
+            body    : body
+            })
+            .then()
+            .then(res => res.json())
+            .then((output) => {
+                if (output.preferences) {
+                    var preferencesChanged = false;
+                    if (output.preferences.apiVersion != USER_PREFERENCES.apiVersion) {
+                        preferencesChanged = true;
+                        USER_PREFERENCES.apiVersion = output.preferences.apiVersion;
+                    }
+                    if (output.preferences.colourScheme != USER_PREFERENCES.colourScheme) {
+                        preferencesChanged = true;
+                        USER_PREFERENCES.colourScheme = output.preferences.colourScheme;
+                    }
+                    var divContainer = document.getElementById("divPreferencesDialogContainer"); 
+                    divContainer.innerHTML = "";
+                    if (preferencesChanged) {
+                        refreshPage();
+                    }
+                } else {
+                    console.log("Error saving preferences")
+                }
+                
+            })
+            .catch(err => { console.log("ERROR PUT " + resource) });
+    } else {
+        USER_PREFERENCES.apiVersion = version;
+        USER_PREFERENCES.colourScheme = colourScheme;
+        document.getElementById("divPreferencesDialogContainer").innerHTML = "";
+        refreshPage();
+    }
+}
+
+function addSaveButtonClickEvent(itemId, checkInterval) {
+    var item = document.getElementById(itemId);
+    if (item == null) {
+        setTimeout (function() {
+            addSaveButtonClickEvent(itemId, checkInterval);
+        } ,checkInterval);
+    } else {
+        item.onclick = function () {
+            savePreferences();          
+        };
+    }    
+}
+
+function addPreferencesButtonClickEvent(itemId, checkInterval) {
+    var item = document.getElementById(itemId);
+    if (item == null) {
+        setTimeout (function() {
+            addPreferencesButtonClickEvent(itemId, checkInterval);
+        } ,checkInterval);
+    } else {
+        item.onclick = function () {
+            togglePreferencesDialog();          
+        };
+    }    
+}
+
+function triggerAutoRefresh (divMenuId, divRightId, checkInterval) {
+    var divMenu     = document.getElementById(divMenuId);
+    var divRight    = document.getElementById(divRightId);
+    if (divMenu == null || divRight == null) {
+        setTimeout (function() {
+            triggerAutoRefresh(divMenuId, divRightId, checkInterval);
+        } ,checkInterval);
+    } else {
+        refreshPage();
+    }    
 }
 
 function addLoginSubmitEventHandler(itemId, checkInterval) {
@@ -732,7 +862,7 @@ function loadLoginScreen() {
     divLogin.classList.add("inline-block");
     
     var headerLogin = document.createElement("h1");
-    headerLogin.innerText = "Meraki Dashboard API diff docs";
+    headerLogin.innerText = "Meraki Dashboard API quick reference";
     headerLogin.classList.add("inline-block");
     divLogin.appendChild(headerLogin);    
     var lineBreak = document.createElement("br");
@@ -822,28 +952,24 @@ function login() {
     var divLoginErrorLog = document.getElementById("divLoginErrorLog");
     divLoginErrorLog.innerText = "";
     
-    var resource = location.protocol + "//" + location.host + "/docs/authentication/login";
+    var resource = location.protocol + "//" + location.host + "/docs/user/preferences";
     USERNAME = document.getElementById("inputName").value;    
-    PASSWORD = document.getElementById("inputPassword").value;    
-    var body = JSON.stringify ({
-        username: USERNAME,
-        password: PASSWORD
-    });
-    var method = "POST";
+    PASSWORD = document.getElementById("inputPassword").value;   
+    var method = "GET";
     var headers = {
         'Content-Type': 'application/json',
         authorization: createAuthorizationHeaderValue()
     };
     
     fetch(resource, {
-        method  : method,
-        headers : headers,
-        body    : body
+            method  : method,
+            headers : headers
         })
         .then()
         .then(res => res.json())
         .then((output) => {
-            if (output.success) {
+            if (output.preferences) {
+                USER_PREFERENCES = output.preferences;
                 loadMainPage();
             } else {
                 divLoginErrorLog.innerText = "Wrong username/password";

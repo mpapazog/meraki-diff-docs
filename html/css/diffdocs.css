@@ -37,20 +37,35 @@ select {
     font-family: "Arial", Sans-serif;
 }
 
-.div-top {
+.div-preferences {
     position: absolute;
+    bottom: 94%;
     left: 2%;
-    width: 96%;
-    height: 9%;
-    padding-top: 1%;
-    /*background-color: yellow;*/
+}
+
+.div-preferences-dialog {
+    position: absolute;
+    top: 6%;
+    left: 2%;
+    border-style: solid;
+    border-color: gray;
+    border-radius:5px;
+    background-color: white;    
+}
+
+.table-preferences {
+    margin-top:5vh;
+    margin-bottom:5vh;
+    margin-left:5vh;
+    margin-right:5vh;
+    white-space: nowrap; 
 }
 
 .div-menu {
     position: absolute;
-    top: 15%;
+    top: 8%;
     left:2%;
-    height: 85%;
+    height: 92%;
     width: 25%;
     overflow: auto;
     /*background-color: cyan;*/
@@ -58,9 +73,9 @@ select {
 
 .div-right {
     position: absolute;
-    top: 15%;
+    top: 0px;
     left: 27%;
-    height: 85%;
+    height: 100%;
     width: 71%;
     padding-left: 2%;
     overflow: auto;
@@ -88,7 +103,7 @@ select {
 }
 
 .text-colour-mixed-colourblind {
-    color: MediumOrchid;    
+    color: tan;    
 }
 
 .text-colour-default {

@@ -73,6 +73,14 @@ class DocsClass {
         return false;
     }
     
+    getUserPreferences(username) {
+        return Config.getUserPreferences(username);
+    }
+    
+    updateUserPreferences(username, preferences) {
+        return Config.updateUserPreferences(username, preferences);        
+    }
+    
     async get(version) {
         console.log(new Date().toISOString() + " User requested " + version);
         var response    = {error: "Invalid API version"}

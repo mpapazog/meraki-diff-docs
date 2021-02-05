@@ -67,7 +67,7 @@ router.get('/v0', function (req, res) {
                 res.status(200).json(response);
             })
             .catch(function (error) {
-                res.status(500).json({errors:"Server error GET /docs/0"});
+                res.status(500).json({errors:"Server error GET /docs/v0"});
             })
             .finally(function () {
                 // always executed
@@ -85,7 +85,7 @@ router.get('/v1', function (req, res) {
                 res.status(200).json(response);
             })
             .catch(function (error) {
-                res.status(500).json({errors:"Server error GET /docs/1"});
+                res.status(500).json({errors:"Server error GET /docs/v1"});
             })
             .finally(function () {
                 // always executed
@@ -100,10 +100,46 @@ router.get('/authentication/settings', function (req, res) {
     res.status(200).json(Docs.getAuthSettings());
 });
 
-// Returns authentication requirement parameters
-router.post('/authentication/login', function (req, res) {
+// Returns preferences for a user
+router.get('/user/preferences', function (req, res) {
     var success = validateCredentials (req.headers);
-    res.status(200).json({success: success});    
+    if (success) {
+        var username = decodeCredentials(req.headers.authorization).username;
+        var preferences = Docs.getUserPreferences(username);
+        var result = {
+                preferences: preferences
+            };
+        res.status(200).json(result);
+    } else {
+        res.status(401).json({errors:"Authorization required"});
+    }    
+});
+
+// Updates user preferences
+router.put('/user/preferences', function (req, res) {
+    if (validateCredentials (req.headers)) {
+        if (req.body) {
+            if (req.body.apiVersion && req.body.colourScheme) {
+                var preferences = {
+                    apiVersion: req.body.apiVersion,
+                    colourScheme: req.body.colourScheme
+                }
+                var username = decodeCredentials(req.headers.authorization).username;
+                var result = Docs.updateUserPreferences(username, preferences);
+                if (result) {
+                    res.status(200).json({preferences: result});                     
+                } else {
+                    res.status(400).json({errors:"Values not permitted"});
+                }                             
+            } else {
+                res.status(400).json({errors:"Wrong request body format"});                
+            }                      
+        } else {
+            res.status(400).json({errors:"No request body"});
+        }    
+    } else {
+        res.status(401).json({errors:"Authorization required"});
+    }     
 });
 
 module.exports = router;
