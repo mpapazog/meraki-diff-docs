@@ -570,6 +570,7 @@ function buildMainPanelEndpoint(item, versionStr) {
         docsLink.title = "Link to official documentation";
         docsLink.href = docsBaseUrl + camelCaseToHyphenated(item.id);
         docsLink.target = "_blank";
+        docsLink.classList.add("text-colour-default");
         docsPathData.appendChild(docsLink);
         
     } else {
