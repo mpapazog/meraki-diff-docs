@@ -347,10 +347,10 @@ function addEnpointTitleShowHideEvent(titleItemId, targetItemId, checkInterval){
 function camelCaseToHyphenated (endpointId) {
     var result = "";
     for (var i=0; i<endpointId.length; i++) {
-        if (endpointId[i] == endpointId[i].toLowerCase()) {
-            result += endpointId[i];
-        } else {
+        if (endpointId[i].match(/^[A-Z0-9]*$/)) {
             result += "-" + endpointId[i].toLowerCase();
+        } else {
+            result += endpointId[i];
         }
     }    
     return result;
