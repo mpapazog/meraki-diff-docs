@@ -344,6 +344,18 @@ function addEnpointTitleShowHideEvent(titleItemId, targetItemId, checkInterval){
     }
 }
 
+function camelCaseToHyphenated (endpointId) {
+    var result = "";
+    for (var i=0; i<endpointId.length; i++) {
+        if (endpointId[i] == endpointId[i].toLowerCase()) {
+            result += endpointId[i];
+        } else {
+            result += "-" + endpointId[i].toLowerCase();
+        }
+    }    
+    return result;
+}
+
 function buildMainPanelEndpoint(item, versionStr) {
     var colourBlindMode = USER_PREFERENCES ? USER_PREFERENCES.colourScheme == "colourBlind" : false;
     var endpoint = document.createElement("div");
@@ -526,7 +538,7 @@ function buildMainPanelEndpoint(item, versionStr) {
     
     // Form Official Docs / Postman collection path content item
     var docsPathLabel = document.createElement("p");
-    docsPathLabel.innerText = "POSTMAN COLLECTION PATH";
+    docsPathLabel.innerText = "OFFICIAL DOCS & POSTMAN PATH";
     docsPathLabel.classList.add("main-panel-endpoint-block-header");
     content.appendChild(docsPathLabel);
     var docsPathTable = document.createElement("table");
@@ -546,7 +558,24 @@ function buildMainPanelEndpoint(item, versionStr) {
         docsPath += item.tags[i] + " > ";
     }
     docsPath += item.id;
-    docsPathData.innerText = docsPath;
+        
+    if (item.availabilityStatus == "ga") {
+        var docsBaseUrl = "https://developer.cisco.com/meraki/api-v1/#!";
+        if (USER_PREFERENCES.apiVersion == "v0") {
+            docsBaseUrl = "https://developer.cisco.com/meraki/api/#!";
+        }
+        var docsLink = document.createElement("a");
+        var linkText = document.createTextNode(docsPath);
+        docsLink.appendChild(linkText);
+        docsLink.title = "Link to official documentation";
+        docsLink.href = docsBaseUrl + camelCaseToHyphenated(item.id);
+        docsLink.target = "_blank";
+        docsPathData.appendChild(docsLink);
+        
+    } else {
+        docsPathData.innerText = docsPath;        
+    }
+    
     docsPathRow.appendChild(docsPathData);
     docsPathTable.appendChild(docsPathRow);
     content.appendChild(docsPathTable);        
